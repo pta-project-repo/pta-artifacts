@@ -1,0 +1,29 @@
+Host *
+	UseKeychain yes
+	AddKeysToAgent yes
+	IdentityFile ~/.ssh/<SSH_KEY>
+
+Host tofino_tpg
+	Hostname <IP_ADDRESS>
+	User <USER_NAME>
+	IdentityFile ~/.ssh/<SSH_KEY>
+	Compression yes
+	ControlMaster auto
+	ControlPath /tmp/ssh_mux_%h_%p_%r
+  
+Host tofino_put
+	Hostname <IP_ADDRESS>
+	User <USER_NAME>
+	IdentityFile ~/.ssh/<SSH_KEY>
+	Compression yes
+	ControlMaster auto
+	ControlPath /tmp/ssh_mux_%h_%p_%r
+  
+Host tofino_opc
+	Hostname <IP_ADDRESS>
+	User <USER_NAME>
+	IdentityFile ~/.ssh/<SSH_KEY>
+	Compression yes
+	ControlMaster auto
+	ControlPath /tmp/ssh_mux_%h_%p_%r
+  

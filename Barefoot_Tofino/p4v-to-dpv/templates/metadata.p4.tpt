@@ -1,0 +1,23 @@
+// ******* DPV_METADA *******
+#define DPVMETA_SIZEB 16
+#define DPVMETA_SIZEb (DPVMETA_SIZEB*8)
+header_type dpv_meta_t {
+    fields {
+        field_0: 8;
+        field_1: 8;
+        field_2: 8;
+        field_3: 8;
+        field_4: 8;
+        field_5: 8;
+        field_6: 8;
+        field_7: 8;
+    }
+}
+metadata dpv_meta_t dpv_meta;
+// **************************
+
+// @DPV meta flags begin
+// @DPV meta flags end
+
+// @DPV meta config begin
+// @DPV meta config end

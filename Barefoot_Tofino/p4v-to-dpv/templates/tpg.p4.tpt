@@ -1,0 +1,95 @@
+#include "./include/headers.p4"
+#include "./include/metadata.p4"
+#include "tofino/stateful_alu_blackbox.p4"
+#include <tofino/intrinsic_metadata.p4>
+#include <tofino/constants.p4>
+
+// PORTS
+#define CPU_PORT 192
+#define SW_PORT 52 // PORT 10
+#define DEFAULT_PORT SW_PORT
+
+// STATEFUL ALU
+#define SZ_REGS 64
+#define SZ_ALU (SZ_REGS/2)
+#define NUM_REGS 1
+#define INDEX 0
+
+// ---------------------------------------------------------------------------
+// PARSER
+// ---------------------------------------------------------------------------
+parser start {
+    // @DPV tpg parser begin
+    // @DPV tpg parser end
+    return ingress;
+}
+// ---------------------------------------------------------------------------
+// MATCH ACTION
+// ---------------------------------------------------------------------------
+
+action set_hdr() {
+    // @DPV tpg sethdr begin
+    // @DPV tpg sethdr end
+}
+table tbl_hdr {
+    actions {
+        set_hdr;
+    }
+    default_action : set_hdr;
+    size : 1;
+}
+
+// @DPV tpg setdstport begin
+//  *** SET DESTINATION PORT
+action set_dstport(dstport) {
+    modify_field(ig_intr_md_for_tm.ucast_egress_port, dstport);
+}
+table tbl_dstport {
+    actions {
+        set_dstport;
+    }
+    default_action: set_dstport(DEFAULT_PORT);
+    size : 1;
+}
+// @DPV tpg setdstport end
+
+// @DPV tpg config_regs begin
+//  *** CONFIG REG #0
+register config_reg_0 {
+    width : SZ_REGS;
+    instance_count : NUM_REGS;
+}
+blackbox stateful_alu config_alu_0 {
+    reg: config_reg_0;
+    output_value: register_lo;
+    output_dst: dpv_meta.field_0;
+}
+action config_act_0() {
+    config_alu_0.execute_stateful_alu(INDEX);
+}
+table config_tbl_0 {
+    actions {config_act_0;}
+    default_action : config_act_0();
+    size : 1;
+}
+// @DPV tpg config_regs end
+
+//  *** INGRESS
+control ingress {
+
+    // @DPV tpg rd_config begin
+    apply(config_tbl_0);
+    // @DPV tpg rd_config end
+
+    // @DPV tpg app_hdr begin
+    apply(tbl_hdr);
+    // @DPV tpg app_hdr end
+
+    // @DPV tpg use_config begin
+    // @DPV tpg use_config end
+
+    // @DPV tpg app_dstport begin
+    apply(tbl_dstport);
+    // @DPV tpg app_dstport end
+
+}

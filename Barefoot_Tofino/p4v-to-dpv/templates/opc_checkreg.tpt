@@ -1,0 +1,20 @@
+register check_reg_<DPV_REG_NUM> {
+    width : SZ_REGS;
+    instance_count : NUM_REGS;
+}
+blackbox stateful_alu check_alu_<DPV_REG_NUM> {
+    reg: check_reg_<DPV_REG_NUM>;
+    initial_register_lo_value: 0;
+    <DPV_COND_LOW>
+    <DPV_COND_HI>
+    <DPV_UPD_LOW>
+    update_lo_1_value: register_lo + 1;
+}
+action check_act_<DPV_REG_NUM>() {
+    check_alu_<DPV_REG_NUM>.execute_stateful_alu(INDEX);
+}
+table check_tbl_<DPV_REG_NUM> {
+    actions {check_act_<DPV_REG_NUM>;}
+    default_action : check_act_<DPV_REG_NUM>;
+    size : 1;
+}

@@ -1,0 +1,34 @@
+*.o
+*.so
+*.pyc
+*.axi
+*.log
+*.coe
+*.bak
+*.DS_Store
+*.str
+*.symvers
+*.exe
+*zlog-cfg-cur*
+*bf_drivers.log*
+*._*
+ptf.pcap
+sshuttle.pid
+seed
+test.pcap
+*~*.*xlsm*
+*.flag
+
+### PUT
+put/data-plane/*
+#put/control-plane/*
+
+### TPG
+tpg/data-plane/*
+tpg/control-plane/wr_config_regs/*
+tpg/pktgen/*
+
+### OPC
+opc/data-plane/*
+opc/control-plane/wr_config_regs/*
+opc/control-plane/rd_res_regs/*

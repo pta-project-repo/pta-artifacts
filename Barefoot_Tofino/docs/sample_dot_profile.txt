@@ -1,0 +1,21 @@
+################################################################################
+###                     DPV PROJECT
+################################################################################
+
+# CODE REPOSITORY
+export REPO="<path-to-DPV_Tofino>"
+
+# DEVICE-SPECIFIC PARAMETERS
+export DPV_NAME="<tpg|put|opc|mgr>"
+export DPV_USR="<username-on-switches>"
+
+# MOUNT REMOTE FILE SYSTEMS
+alias mnt_tofino_tpg='mkdir -pv ~/Desktop/tofino_tpg && sudo sshfs -o allow_other,defer_permissions,IdentityFile=~/.ssh/<SSH_KEY> $DPV_USR@<IP_ADDRESS>: ~/Desktop/tofino_tpg'
+alias umnt_tofino_tpg='sudo umount -f ~/Desktop/tofino_tpg && rm -rf ~/Desktop/tofino_tpg'
+alias mnt_tofino_put='mkdir -pv ~/Desktop/tofino_put && sudo sshfs -o allow_other,defer_permissions,IdentityFile=~/.ssh/<SSH_KEY> $DPV_USR@<IP_ADDRESS>: ~/Desktop/tofino_put'
+alias umnt_tofino_put='sudo umount -f ~/Desktop/tofino_put && rm -rf ~/Desktop/tofino_put'
+alias mnt_tofino_opc='mkdir -pv ~/Desktop/tofino_opc && sudo sshfs -o allow_other,defer_permissions,IdentityFile=~/.ssh/<SSH_KEY> $DPV_USR@<IP_ADDRESS>: ~/Desktop/tofino_opc'
+alias umnt_tofino_opc='sudo umount -f ~/Desktop/tofino_opc && rm -rf ~/Desktop/tofino_opc'
+
+# SOURCE DPV SETTINGS FILE
+source $REPO/scripts/settings.sh

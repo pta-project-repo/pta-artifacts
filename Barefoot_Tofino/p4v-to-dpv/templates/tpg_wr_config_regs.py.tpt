@@ -1,0 +1,55 @@
+import pd_base_tests
+from ptf import config
+from ptf.testutils import *
+from ptf.thriftutils import *
+from res_pd_rpc.ttypes import *
+from tpg.p4_pd_rpc.ttypes import *
+
+class wr_config_regs(pd_base_tests.ThriftInterfaceDataPlane):
+
+    # Init
+    def __init__(self):
+        pd_base_tests.ThriftInterfaceDataPlane.__init__(self, ["tpg"])
+
+    # Connect to thrift server and install device configuration
+    def setUp(self):
+        pd_base_tests.ThriftInterfaceDataPlane.setUp(self)
+        self.sess_hdl = self.conn_mgr.client_init()
+        self.dev      = 0
+        self.dev_tgt  = DevTarget_t(self.dev, hex_to_i16(0xFFFF))
+        print("\nConnected to Device %d, Session %d" % (self.dev, self.sess_hdl))
+
+    # Test
+    def runTest(self):
+
+        # @DPV wr_config_regs indexes begin
+        # @DPV wr_config_regs indexes end
+
+        zero_high = 0x00000000
+
+        # @DPV wr_config_regs values begin
+        # @DPV wr_config_regs values end
+
+        # READ
+        # @DPV wr_config_regs read begin
+        # @DPV wr_config_regs read end
+
+        # REUSE DATA FOR WRITING
+        # @DPV wr_config_regs data begin
+        # @DPV wr_config_regs data end
+
+        # WRITE
+        # @DPV wr_config_regs write begin
+        # @DPV wr_config_regs write end
+
+        ########################################################################
+        ###             TEARDOW OPERATIONS
+        ########################################################################
+
+        # Use this method to return the DUT to the initial state by cleaning
+        # all the configuration and clearing up the connection
+        # def tearDown(self):
+        #     self.conn_mgr.complete_operations(self.sess_hdl)
+        #     self.conn_mgr.client_cleanup(self.sess_hdl)
+        #     print("Closed Session %d" % self.sess_hdl)
+        #     pd_base_tests.ThriftInterfaceDataPlane.tearDown(self)
