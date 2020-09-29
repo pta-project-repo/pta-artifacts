@@ -1,0 +1,44 @@
+// @pta tempmeta sume begin
+meta_1 : FREE
+meta_2 : FREE
+meta_3 : FREE
+meta_4 : FREE
+meta_5 : FREE
+meta_6 : FREE
+meta_7 : FREE
+meta_8 : FREE
+meta_9 : FREE
+meta_10 : FREE
+meta_11 : FREE
+meta_12 : FREE
+meta_13 : FREE
+meta_14 : FREE
+meta_15 : FREE
+// @pta tempmeta sume end
+
+// @pta tempmeta user begin
+um_0 : FREE
+um_1 : FREE
+um_2 : FREE
+um_3 : FREE
+um_4 : FREE
+um_5 : FREE
+um_6 : FREE
+um_7 : FREE
+um_8 : FREE
+um_9 : FREE
+um_10 : FREE
+um_11 : FREE
+um_12 : FREE
+um_13 : FREE
+um_14 : FREE
+um_15 : FREE
+um_16 : FREE
+um_17 : FREE
+um_18 : FREE
+um_19 : FREE
+um_20 : FREE
+um_21 : FREE
+um_22 : FREE
+um_23 : FREE
+// @pta tempmeta user end

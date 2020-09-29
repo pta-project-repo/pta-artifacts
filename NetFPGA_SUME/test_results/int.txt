@@ -1,0 +1,74 @@
+################################################################################
+## 	     				INT
+################################################################################
+
+- TEST: Max Hop Count exceeded, no metadata added, E flag set to 1.
+- TEST RESULT: PASSED. No INT metadata added to the packet if max hop count is
+exceeded.
+- TESTING TIME: ~76s
+
+***
+
+- TEST: "tot_hop_cnt" incremented after packet has been processed.
+- TEST RESULT: PASSED. "tot_hop_cnt" correctly incremented.
+- TESTING TIME: ~100s
+
+***
+
+- TEST: BOS bit indicates the last metadata instance in the stack
+(added only to first hop).
+- TEST RESULT: PASSED. BOS set only to the first hop, according both to
+"ins cnt" and "ins_bitmask".
+- TESTING TIME: ~130s
+
+***
+
+- TEST: Invalid TAG when info not available (broadcasting).
+- TEST RESULT: PASSED. Invalid tag correctly set.
+- TESTING TIME: ~118s
+
+***
+
+- TEST: In an INT packet, the length (in bytes) of the INT metadata stack must
+always be (Instruction Count * 4 * Total Hop Count).
+- TEST RESULT: PASSED. Packet length is correct.
+- TESTING TIME: ~117s
+
+***
+
+- TEST: Instruction Count (5b), a device would cease processing an INT packet
+with a Intruction Count higher than the number of
+instructions that it is able to support.
+- TEST RESULT: FAILED. This implementation of INT doesn't allow users to require
+the execution of more than 5 instructions, it provides no mechanism for ceasing
+the processing of packets requiring more than 5 instructions.
+Indeed, the pipeline fails in setting the BOS flag to the last (the fifth)
+INT header.
+- TESTING TIME: ~103s
+
+***
+
+- TEST: Pipeline throughput.
+- TEST RESULT: FAILED. Pass only with unaligned packet size, fail otherwise.
+- TESTING TIME: ~3077s
+
+***
+
+- TEST: Architecture throughput.
+- TEST RESULT: FAILED. The architecture cannot sustain full internal rate.
+- TESTING TIME: ~3077s
+
+***
+
+- TEST: Generating correct metadata (switch ID, ingr port ID, Queue occupancy,
+ingr TSTAMP, egr port ID).
+- TEST RESULT: PASSED. Metadata correctly generated for all packet sizes.
+- TESTING TIME: ~1177s
+
+********************************************************************************
+
+RESOURCE UTILISATION (PISA):
+
+- Test Header Generator: 4 pipeline  stages, 1 table, 2 externs
+- Output Packet Checker: 7 pipeline stages, 2 tables, 5 externs
+

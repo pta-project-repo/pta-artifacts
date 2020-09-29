@@ -1,0 +1,35 @@
+// @pta tempext alu begin
+@Xilinx_MaxLatency(3)
+@Xilinx_ControlWidth(4)
+extern void alu$_reg_rw(in bit<ALU_INDEX_WIDTH> index,
+                         in bit<ALU_BUS_WIDTH> newVal,
+                         in bit<OPCODE_WIDTH> opCode,
+                         out bit<ALU_BUS_WIDTH> result);
+// @pta tempext alu end
+
+// @pta tempext cam begin
+@Xilinx_MaxLatency(3)
+@Xilinx_ControlWidth(4)
+extern void cam$_reg_rw(in bit<CAM_INDEX_WIDTH> index,
+                         in bit<CAM_BUS_WIDTH> newVal,
+                         in bit<OPCODE_WIDTH> opCode,
+                         out bit<CAM_BUS_WIDTH> result);
+// @pta tempext cam end
+
+// @pta tempext tcam begin
+@Xilinx_MaxLatency(3)
+@Xilinx_ControlWidth(4)
+extern void tcam$_reg_rw(in bit<TCAM_INDEX_WIDTH> index,
+                         in bit<TCAM_BUS_WIDTH> newVal,
+                         in bit<OPCODE_WIDTH> opCode,
+                         out bit<TCAM_BUS_WIDTH> result);
+// @pta tempext tcam end
+
+// @pta tempext pktcnt begin
+@Xilinx_MaxLatency(3)
+@Xilinx_ControlWidth(4)
+extern void pktcnt$_reg_rw(in bit<PKTCNT_INDEX_WIDTH> index,
+                         in bit<PKTCNT_BUS_WIDTH> newVal,
+                         in bit<OPCODE_WIDTH> opCode,
+                         out bit<PKTCNT_BUS_WIDTH> result);
+// @pta tempext pktcnt end

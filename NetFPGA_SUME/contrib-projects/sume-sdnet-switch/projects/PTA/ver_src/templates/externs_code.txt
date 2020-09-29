@@ -1,0 +1,42 @@
+#ifndef EXT_H
+#define EXT_H
+
+// OPCODEs
+#define OPCODE_WIDTH 8
+#define READ 8w0
+#define WRITE 8w1
+#define INC 8w2
+
+// ALU
+#define ALU_INDEX_WIDTH 4
+#define ALU_BUS_WIDTH 8
+
+// CAM
+#define CAM_INDEX_WIDTH 11
+#define CAM_BUS_WIDTH 32
+
+// TCAM
+#define TCAM_INDEX_WIDTH 11
+#define TCAM_BUS_WIDTH 32
+
+// PACKET COUNTER
+#define PKTCNT_INDEX_WIDTH 1
+#define PKTCNT_BUS_WIDTH 32
+
+////////////////////////////////////////////////////////////////////////////////
+///                        EXTERNs
+////////////////////////////////////////////////////////////////////////////////
+
+// @pta extern alu begin
+// @pta extern alu end
+
+// @pta extern cam begin
+// @pta extern cam end
+
+// @pta extern tcam begin
+// @pta extern tcam end
+
+// @pta extern pktcnt begin
+// @pta extern pktcnt end
+
+#endif

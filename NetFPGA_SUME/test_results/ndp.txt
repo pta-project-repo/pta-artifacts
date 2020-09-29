@@ -1,0 +1,31 @@
+################################################################################
+## 	     				NDP
+################################################################################
+
+- TEST: Invalid source MAC addresses.
+- TEST RESULT: FAILED. Packets with invalid source MAC addresses traverse the
+data plane and reach the output network interfaces.
+
+***
+
+- TEST: Overflow with more than 16 entries in CAM table.
+- TEST RESULT: FAILED. 17th entry overwrites the first one without any notice.
+
+***
+
+- TEST: learning hazards (not enough time for updating the CAM table).
+- TEST RESULT: FAILED. With packet size less than 385B.
+Success with larger packets.
+
+********************************************************************************
+
+RESOURCE UTILISATION (FPGA):
+ 
+- NDP only:	  LUT=14.6%,	FF=8.9%,	BRAM=15.7%
+- NDP + PTA:	  LUT=29.4%,	FF=23.2%,	BRAM=33.7%
+
+RESOURCE UTILISATION (PISA):
+
+- Test Header Generator: 3 pipeline stages, 1 table, 1 extern
+- Output Packet Checker: 5 pipeline stages, 2 tables, 3 externs
+

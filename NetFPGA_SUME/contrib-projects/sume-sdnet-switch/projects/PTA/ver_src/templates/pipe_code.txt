@@ -1,0 +1,105 @@
+#ifndef PIPE_H
+#define PIPE_H
+
+////////////////////////////////////////////////////////////////////////////////
+///                        PIPELINE
+////////////////////////////////////////////////////////////////////////////////
+
+control TopPipe(inout Parsed_packet p,
+                inout user_metadata_t user_metadata,
+                inout digest_data_t digest_data,
+                inout sume_metadata_t sume_metadata) {
+
+    //************************************************
+    // VARIABLES
+    //************************************************
+
+    // PLACEHOLDERS
+    bit<ALU_BUS_WIDTH> alu_out;
+    bit<CAM_BUS_WIDTH> cam_in;
+    bit<CAM_BUS_WIDTH> cam_out;
+    bit<TCAM_BUS_WIDTH> tcam_in;
+    bit<TCAM_BUS_WIDTH> tcam_out;
+    bit<PKTCNT_BUS_WIDTH> pktcnt_in;
+    bit<PKTCNT_BUS_WIDTH> pktcnt_out;
+
+    // @pta variables alu begin
+    // @pta variables alu end
+
+    // @pta variables cam begin
+    // @pta variables cam end
+
+    // @pta variables tcam begin
+    // @pta variables tcam end
+
+    //************************************************
+    // INSTANCES
+    //************************************************
+
+    // @pta instances alu begin
+    // @pta instances alu end
+
+    // @pta instances cam begin
+    // @pta instances cam end
+
+    // @pta instances tcam begin
+    // @pta instances tcam end
+
+    //************************************************
+    // PIPELINE
+    //************************************************
+    apply {
+
+        // STAGE 0
+        if(sume_metadata.meta_0[0:0] == 1w1){
+            // @pta stage 0 begin
+            // @pta stage 0 end
+        }
+
+        // STAGE 1
+        if(sume_metadata.meta_0[1:1] == 1w1){
+            // @pta stage 1 begin
+            // @pta stage 1 end
+        }
+
+        // STAGE 2
+        if(sume_metadata.meta_0[2:2] == 1w1){
+            // @pta stage 2 begin
+            // @pta stage 2 end
+        }
+
+        // STAGE 3
+        if(sume_metadata.meta_0[3:3] == 1w1){
+            // @pta stage 3 begin
+            // @pta stage 3 end
+        }
+
+        // STAGE 4
+        if(sume_metadata.meta_0[4:4] == 1w1){
+            // @pta stage 4 begin
+            // @pta stage 4 end
+        }
+
+        // STAGE 5
+        if(sume_metadata.meta_0[5:5] == 1w1){
+            // @pta stage 5 begin
+            // @pta stage 5 end
+        }
+
+        // STAGE 6
+        if(sume_metadata.meta_0[6:6] == 1w1){
+            // @pta stage 6 begin
+            // @pta stage 6 end
+        }
+
+        // STAGE 7
+        if(sume_metadata.meta_0[7:7] == 1w1){
+            // @pta stage 7 begin
+            // @pta stage 7 end
+        }
+
+    } // apply
+
+} // control
+
+#endif

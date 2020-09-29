@@ -1,0 +1,110 @@
+#!/usr/bin/env python
+
+#
+# Copyright (c) 2017 Stephen Ibanez
+# All rights reserved.
+#
+# This software was developed by Stanford University and the University of Cambridge Computer Laboratory 
+# under National Science Foundation under Grant No. CNS-0855268,
+# the University of Cambridge Computer Laboratory under EPSRC INTERNET Project EP/H040536/1 and
+# by the University of Cambridge Computer Laboratory under DARPA/AFRL contract FA8750-11-C-0249 ("MRC2"), 
+# as part of the DARPA MRC research programme.
+#
+# @NETFPGA_LICENSE_HEADER_START@
+#
+# Licensed to NetFPGA C.I.C. (NetFPGA) under one or more contributor
+# license agreements.  See the NOTICE file distributed with this work for
+# additional information regarding copyright ownership.  NetFPGA licenses this
+# file to you under the NetFPGA Hardware-Software License, Version 1.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at:
+#
+#   http://www.netfpga-cic.org
+#
+# Unless required by applicable law or agreed to in writing, Work distributed
+# under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+# CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations under the License.
+#
+# @NETFPGA_LICENSE_HEADER_END@
+#
+
+
+import argparse
+import struct
+from scapy.all import rdpcap, hexdump
+
+parser = argparse.ArgumentParser(description="Convert Pcap files to axi bus")
+
+parser.add_argument('file_pcap', type=str,
+                    metavar='input.pcap',
+                    help="Input Pcap file")
+parser.add_argument('--output', '-o', metavar="out_file.axi", type=str,
+                    action='store', help="Commands to send to the table")
+parser.add_argument('--bus_width', metavar="bits", type=int,
+                    action='store', default=512, 
+                    help="The axi bus width in bits")
+args = parser.parse_args()
+
+
+def _reduce(mask, offset=8):
+    ret = bytearray()
+    for pos in range(0, len(mask), offset):
+        tmp_mask = mask[pos:pos+offset]
+        tmp_val = 0
+        for byte in tmp_mask:
+            tmp_val = (tmp_val << 1) + (1 if byte else 0)
+        # reverse the bits
+        ret.append(int('{:08b}'.format(tmp_val)[::-1], 2))
+    return ret
+
+def get_axi_packet(data, bus_width_bits):
+    bus_width_bytes = bus_width_bits / 8
+    mask = bytearray([0xFF for _ in range(len(data))])
+
+    padding = (bus_width_bytes - (len(data) % bus_width_bytes))
+    padding = padding % bus_width_bytes
+    data += bytearray([0 for _ in range(padding)])
+    mask += bytearray([0 for _ in range(padding)])
+
+    ret = []
+    for pos in range(0, len(data), bus_width_bytes):
+        tmp_data = data[pos:pos+bus_width_bytes]
+        tmp_mask = mask[pos:pos+bus_width_bytes]
+        ret.append((0, _reduce(tmp_mask), tmp_data))
+    ret[-1] = (1, ret[-1][1], ret[-1][2])
+    return ret
+
+def little_endian(value):
+    to_str = [format(byte, '02x') for byte in value]
+    return "".join(reversed(to_str))
+
+def big_endian(value):
+    to_str = [format(byte, '02x') for byte in value]
+    return "".join(to_str)
+
+def write_to_file(file_in, file_out):
+    with open(file_out, 'w+') as fout:
+        for pkt in rdpcap(file_in):
+            data = bytearray(str(pkt))
+            for axi_pkt in get_axi_packet(data, bus_width_bits):
+                fout.write("{} {} {}\n".format(axi_pkt[0], 
+                                               little_endian(axi_pkt[1]), 
+                                               little_endian(axi_pkt[2])))
+
+def write_to_stdout(file_in):
+    for pkt in rdpcap(file_in):
+        data = bytearray(str(pkt))
+        for axi_pkt in get_axi_packet(data, bus_width_bits):
+            print "{} {} {}".format(axi_pkt[0], little_endian(axi_pkt[1]), 
+                                    little_endian(axi_pkt[2]))
+if __name__ == "__main__":
+    bus_width_bits = args.bus_width
+    if (bus_width_bits % 32) != 0:
+        print "ERROR: bus width must be a factor of 32."
+        exit(1)
+
+    if args.output:
+        write_to_file(args.file_pcap, args.output)
+    else:
+        write_to_stdout(args.file_pcap)

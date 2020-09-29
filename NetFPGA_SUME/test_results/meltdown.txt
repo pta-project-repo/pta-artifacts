@@ -1,0 +1,15 @@
+################################################################################
+## 				MELTDOWN
+################################################################################
+
+- TEST: Attempting to infer the contents of previous packets using malformed packets.
+- TEST RESULT: PASSED. SDNet compiler returns a zero value for such attempts,
+providing stateless operation between packets
+
+********************************************************************************
+
+RESOURCE UTILISATION (PISA):
+
+- Test Header Generator: 2 pipeline stages, 1 table, 1 extern
+- Output Packet Checker: 7 pipeline stages, 2 tables, 5 externs
+

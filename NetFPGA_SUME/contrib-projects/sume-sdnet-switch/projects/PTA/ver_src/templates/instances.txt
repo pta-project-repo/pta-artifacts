@@ -1,0 +1,11 @@
+// @pta tempinst alu begin
+    Alu() alu$;
+// @pta tempinst alu end
+
+// @pta tempinst cam begin
+    Cam() cam$;
+// @pta tempinst cam end
+
+// @pta tempinst tcam begin
+    Tcam() tcam$;
+// @pta tempinst tcam end

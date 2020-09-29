@@ -1,0 +1,55 @@
+################################################################################
+## 	     			LEARNING SWITCH (VERILOG)
+################################################################################
+
+- TEST: Invalid source MAC addresses.
+- TEST RESULT: FAILED. Packets with invalid source MAC addresses traverse the
+data plane and reach the output network interfaces.
+
+***
+
+- TEST: Two ports assigned to same MAC address.
+- TEST RESULT: PASSED. Entries are updated inside the CAM table (there is only
+one entry matching on a DST_MAC address), therefore, all the packets are forwarded
+to the port added by the second training packet.
+
+***
+
+- TEST: Overflow with more than 16 entries in CAM table.
+- TEST RESULT: FAILED. 17th entry overwrites the first one without any notice.
+
+***
+
+- TEST: learning hazards (not enough time for updating the CAM table).
+- TEST RESULT: FAILED. With packet size less than 385B.
+Success with larger packets.
+
+***
+
+- TEST: MAC addresses populated with random values.
+- TEST RESULT: PASSED. Random MACs processed correctly.
+
+***
+
+- TEST: Design functionality.
+- TEST RESULT: PASSED. Training (+miss) & hit working properly.
+
+***
+
+- TEST: Pipeline throughput.
+- TEST RESULT: PASSED. All test packets reaching the checker are forwarded to the
+correct output network interfaces.
+
+***
+
+- TEST: Architecture throughput.
+- TEST RESULT: FAILED. The architecture is not able to sustain the full internal rate (~50Gbps).
+
+***
+
+********************************************************************************
+
+RESOURCE UTILISATION:
+ 
+- LS only:	  LUT=9.96%,	FF=7.47%,	BRAM=13.91%
+- LS + PTA:	  LUT=19.55%,	FF=14.68%,	BRAM=23.03%

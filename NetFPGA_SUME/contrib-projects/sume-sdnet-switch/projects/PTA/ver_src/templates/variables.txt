@@ -1,0 +1,11 @@
+// @pta tempvar alu begin
+    bit<ALU_INDEX_WIDTH> indexAlu$;
+// @pta tempvar alu end
+
+// @pta tempvar cam begin
+    bit<CAM_INDEX_WIDTH> indexCam$;
+// @pta tempvar cam end
+
+// @pta tempvar tcam begin
+    bit<TCAM_INDEX_WIDTH> indexTcam$;
+// @pta tempvar tcam end

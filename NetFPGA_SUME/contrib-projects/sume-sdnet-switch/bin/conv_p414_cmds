@@ -1,0 +1,118 @@
+#!/usr/bin/env python
+
+#
+# Copyright (c) 2017 Stephen Ibanez
+# All rights reserved.
+#
+# This software was developed by Stanford University and the University of Cambridge Computer Laboratory 
+# under National Science Foundation under Grant No. CNS-0855268,
+# the University of Cambridge Computer Laboratory under EPSRC INTERNET Project EP/H040536/1 and
+# by the University of Cambridge Computer Laboratory under DARPA/AFRL contract FA8750-11-C-0249 ("MRC2"), 
+# as part of the DARPA MRC research programme.
+#
+# @NETFPGA_LICENSE_HEADER_START@
+#
+# Licensed to NetFPGA C.I.C. (NetFPGA) under one or more contributor
+# license agreements.  See the NOTICE file distributed with this work for
+# additional information regarding copyright ownership.  NetFPGA licenses this
+# file to you under the NetFPGA Hardware-Software License, Version 1.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at:
+#
+#   http://www.netfpga-cic.org
+#
+# Unless required by applicable law or agreed to in writing, Work distributed
+# under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+# CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations under the License.
+#
+# @NETFPGA_LICENSE_HEADER_END@
+#
+
+
+import sys
+from collections import OrderedDict
+
+class PXTable(object):
+    def __init__(self, name):
+        self.name = name
+        self.action_map = {}
+        self.req_field_list = OrderedDict()
+        self.resp_field_list = OrderedDict()
+
+        self.data = []
+
+    def _hexify(self, p4_fields, px_fields):
+        px_size = [s for n,s in px_fields.items() if n != 'padding']
+
+        ret = 0
+        for val, bits in zip(p4_fields, px_size):
+            mask = 2**bits -1
+            ret = (ret << bits) + (val & mask)
+        return "%X" % ret
+
+    def add_p4_match(self, keys, action, values):
+        tmp_vals = [self.action_map[action]] + values
+        self.data.append((self._hexify(keys, self.req_field_list),
+                         self._hexify(tmp_vals, self.resp_field_list)))
+
+    def write_px_file(self):
+        with open(self.name + ".tbl", 'w+') as fout:
+            for key, value in self.data:
+                fout.write("{} {}\n".format(key, value))
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print "usage: {} p4_cmds.txt px_switch_info.dat".format(sys.argv[0])
+        exit(1)
+
+    px_name_map = {}
+    px_tables = {}
+
+    with open(sys.argv[2]) as fin:
+        for line in fin:
+            line = line.strip().split()
+            if not line:
+                continue
+
+            if line[0] == "engine_name":
+                px_name_map[line[1]] = line[2]
+            elif line[0] == "table_type":
+                px_tables[line[1]] = PXTable(px_name_map[line[1]])
+            elif line[0] == "table_action":
+                px_tables[line[1]].action_map[line[2]] = int(line[3])
+            elif line[0] == "req_tuple_field":
+                px_tables[line[1]].req_field_list[line[2]] = int(line[3])
+            elif line[0] == "resp_tuple_field":
+                px_tables[line[1]].resp_field_list[line[2]] = int(line[3])
+            else:
+                print "ERROR: unknown PX info line"
+                print line
+                exit(1)
+
+    with open(sys.argv[1]) as fin:
+        for line in fin:
+            line = line.strip()
+            if not line.startswith("table_add"):
+                continue
+
+            stmt = line.strip().split('=>')
+            if len(stmt) != 2:
+                print "ERROR: expecting statement to have 2 values!"
+                print stmt
+                exit(1)
+
+            lhs = stmt[0].split()
+            rhs = stmt[1].split()
+
+            table = lhs[1]
+            action = lhs[2]
+            keys = [int(_, 0) for _ in lhs[3:]]
+            values = [int(_, 0) for _ in rhs]
+
+            if table in px_tables.keys():
+                px_tables[table].add_p4_match(keys, action, values)
+
+    for table in px_tables.values():
+        table.write_px_file()
+

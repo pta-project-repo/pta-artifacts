@@ -1,0 +1,57 @@
+################################################################################
+## 	     			LEARNING SWITCH (P4)
+################################################################################
+
+- TEST: Invalid source MAC addresses.
+- TEST RESULT: FAILED. Packets with invalid source MAC addresses traverse the
+data plane and reach the output network interfaces.
+
+***
+
+- TEST: Two ports assigned to same MAC address.
+- TEST RESULT: FAILED. Table "smac" stores all the already known source MAC address.
+This prevents the second training packet from being sent to the control plane for
+updating the corresponding entries in the tables.
+Therefore all subsequent packets are sent to the port assigned to the first training packet.
+
+***
+
+- TEST: Overflow with more than 64 entries in CAM table.
+- TEST RESULT: PASSED. Although table size is declared as 64 entries in the P4 code,
+tables are able to store more data, thus avoding saturation when the 65th entry is loaded.
+
+***
+
+- TEST: Learning hazards (not enough time for updating the CAM table).
+- TEST RESULT: FAILED. Control plane script is never able to update the tables on time,
+to keep up with line-rate traffic.
+
+***
+
+- TEST: MAC addresses populated with random values.
+- TEST RESULT: PASSED. Random MACs processed correctly.
+
+***
+
+- TEST: Design functionality.
+- TEST RESULT: PASSED. Training (+miss) & hit working properly.
+
+***
+
+- TEST: Pipeline throughput.
+- TEST RESULT: PASSED. All test packets reaching the checker are forwarded to the
+correct output network interfaces.
+
+***
+
+- TEST: Architecture throughput.
+- TEST RESULT: FAILED. The architecture is not able to sustain the full internal rate (~50Gbps).
+
+***
+
+********************************************************************************
+
+RESOURCE UTILISATION:
+ 
+- LS only:	  LUT=18.91%,	FF=13.79%,	BRAM=32.24%
+- LS + PTA:	  LUT=29.27%,	FF=22.54%,	BRAM=31.16%

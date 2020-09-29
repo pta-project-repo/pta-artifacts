@@ -1,0 +1,18 @@
+// @pta tempstage alu begin
+            alu$.apply(p, sume_metadata, user_metadata, sume_metadata.meta_*keya*, sume_metadata.meta_*keyb*, sume_metadata.meta_*keyoper*, user_metadata.um_*opa*, user_metadata.um_*opb*, user_metadata.um_*oper*, indexAlu$);
+            alu$_reg_rw(indexAlu$, user_metadata.um_*oper*, WRITE, alu_out);
+// @pta tempstage alu end
+
+// @pta tempstage cam begin
+            cam$.apply(p, sume_metadata, user_metadata, sume_metadata.meta_*key*, user_metadata.um_*mc*, indexCam$);
+            cam$_reg_rw(indexCam$, cam_in, INC, cam_out);
+// @pta tempstage cam end
+
+// @pta tempstage tcam begin
+            tcam$.apply(p, sume_metadata, user_metadata, sume_metadata.meta_*key*, user_metadata.um_*mc*, indexTcam$);
+            tcam$_reg_rw(indexTcam$, tcam_in, INC, tcam_out);
+// @pta tempstage tcam end
+
+// @pta tempstage pktcnt begin
+            pktcnt$_reg_rw(0, pktcnt_in, INC, pktcnt_out);
+// @pta tempstage pktcnt end
