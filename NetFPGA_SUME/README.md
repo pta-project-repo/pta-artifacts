@@ -1,4 +1,14 @@
-# PTA
+# PTA on NetFPGA SUME
+
+## Software requirements
+
+1. OS: Ubuntu 16.04.5 LTS
+
+2. Compiler: Xilinx Vivado 2018.2
+
+3. Compiler: Xilinx SDNet 2018.2
+
+## Installation Prerequisites 
 
 ### Setup the NetFPGA SUME Framework
 
@@ -8,15 +18,9 @@ https://github.com/NetFPGA/NetFPGA-SUME-public/wiki
 
 https://github.com/NetFPGA/P4-NetFPGA-public/wiki
 
-### Software requirements
 
-OS: Ubuntu 16.04.5 LTS
 
-Compiler: Xilinx Vivado 2018.2
-
-Compiler: Xilinx SDNet 2018.2
-
-### Configuring PTA
+## Configuring PTA - First Time Only
 
 Locate file "sume_switch.p4" inside SDNet's install dir, e.g.:
 
@@ -90,7 +94,11 @@ export SUME_FOLDER=<PATH TO PTA REPO>
 
 source "PTA.sh"
 
-### Edit framework
+## Create, Edit and Run a Test 
+
+### step 1: Edit Framework
+
+The following are the hardware components of the framework. They don't need to be modified for reproducibility purposes, but one may wish to modify them for different designs.
 
 Tested program (data plane, table entries):
 
@@ -113,36 +121,38 @@ $P4_PROJECT_DIR/ver_src/ppl_p4.p4
 $P4_PROJECT_DIR/ver_src/cmds.txt
 ```
 
-### Edit test script
+### Step 2: Edit test script
+
+The following is the test script of the framework. It doesn't need to be modified for reproducibility purposes, but one may wish to modify it for different tests.
 
 ```
 $P4_PROJECT_DIR/tests/test_gen.py
 ```
 
-### Compiling PTA
+### Step 3: Compile PTA
 
-Compile library:
+Compile library (needs to be compiled only when first installed):
 
 ```
 cd $SUME_FOLDER
 make
 ```
 
-Compile P4 IP cores:
+Compile P4 IP cores (needs to be compiled only when P4 source code is modified and when first installed):
 
 ```
 cd $P4_PROJECT_DIR
 make
 ```
 
-Compile FPGA project:
+Compile FPGA project (needs to be compiled only when P4 source code is modified and when first installed):
 
 ```
 cd simple_sume_switch
 make
 ```
 
-### Running PTA
+### Step 4: Run PTA
 
 Program switch and tables. Run command:
 
@@ -161,3 +171,15 @@ Command for generating test packets in hardware:
 ```
 genpkts --help
 ```
+
+## Folder stucture
+
+1. contrib-projects/sume-sdnet-switch - P4-NetFPGA source coude
+
+2. examples - An example of PTA test script
+
+3. lib - NetFPGA libraries created, modified or tested by PTA
+
+4. test_results - Examples of test results logs from several test cases
+
+5. tools - PTA software tools and related NetFPGA scripts
