@@ -23,5 +23,5 @@ This repository includes the two artifacts introduced in the paper:
 
 Each artifact's folder includes a README.md file with detailed setup instructions.
 
-## Example Test Program
+# Example Test Program
 We expand the discussion about P4v-to-PTA, that we presented in the paper, by describing an [example test program](Barefoot_Tofino/docs/README.md).
