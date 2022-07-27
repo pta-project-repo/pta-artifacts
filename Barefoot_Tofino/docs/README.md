@@ -15,8 +15,8 @@ We annotated the example test program with P4v assumptions and assertions in the
 
 ## Back-end Abstractions
 
-P4v-to-PTA abstracts the target hardware architecture in way which makes it usable at a higher level both to implement and to run test configurations.
-The hardware abstraction includes both hardware components, i.e. the metadata bus, and scripts that automate the usage of such components, i.e. accessing registers.
+P4v-to-PTA abstracts the target hardware architecture in a way which makes it usable at a higher level both to implement and to run test configurations.
+The hardware abstraction includes both hardware components, e.g. the metadata bus, and scripts that automate the usage of such components, e.g. accessing registers.
 Beside the layout of the metadata bus, [the Barefoot Tofino hardware abstraction](../p4v-to-dpv/templates) covers both test packet generation ("tpg") and output packet check ("opc").
 The tpg architecture includes both [a blank packet generator](../p4v-to-dpv/templates/tpg_pktgen.py.tpt), in the form of a python script that operates the packet generator engine of the Tofino switch, and [a test header generation P4 pipeline](../p4v-to-dpv/templates/tpg.p4.tpt). The opg architecture is based on a [packet check P4 pipeline](../p4v-to-dpv/templates/opc.p4.tpt) that leverages ALU-register couples to run basic operations and store their results using single pipeline stages.
 
