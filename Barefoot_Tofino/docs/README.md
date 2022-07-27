@@ -27,7 +27,7 @@ For example, to load a program image to a switch, P4v-to-PTA uses [the "Load_Ima
 
 ## Test Generation
 
-Given both a test program and the target abstractions, P4v-to-PTA automatically implements a test-specific, target-specific hardware/software configuration as the results of [a sequence of operations](../p4v-to-dpv/scripts/p4v-to-dpv.py), including code analysis, test data generation, hardware configuration and image building.
+Given both a test program and the target abstractions, P4v-to-PTA automatically implements a test-specific, target-specific hardware/software configuration as the results of [a sequence of operations](../p4v-to-dpv/scripts/p4v-to-dpv.py), including code analysis, test data generation and hardware configuration.
 
 #### Code Analysis
 
@@ -44,8 +44,11 @@ On the other hand, very little processing is required to translate assertions to
 
 Leveraging the back-end abstractions, P4v-to-PTA [converts the test data to a hardware configuration](../p4v-to-dpv/scripts/library.py#L1013) that includes both the test packet generator and the output packet checker. It also implements both the [infrastructure to read/write registers](../p4v-to-dpv/scripts/library.py#L1053) and the [configuration of the blank packet generator](../p4v-to-dpv/scripts/library.py#L541).
 
-#### Image Building
-
-For non-constant values, P4v-to-PTA takes care of populating the header fields by meeting all the constraints specified through the assumptions.
-
 ## Test Execution
+
+P4v-to-PTA tests are managed by a [Python script](../p4v-to-dpv/scripts/run_test.py) that coordinates all the test operations, leveraging the user-facing abstractions.
+Before loading the three main components of the system (test packet generator, test program, output packet checker), P4v-to-PTA resets both the [hardware](../p4v-to-dpv/scripts/run_test.py#L86) and the [software](../p4v-to-dpv/scripts/run_test.py#L99) environment of the target switches.
+Then, it [configures](../p4v-to-dpv/scripts/run_test.py#L138) the targets with the generated test data and it [compiles](../p4v-to-dpv/scripts/run_test.py#L156) the P4 code directly in the switches.
+Once done, P4v-to-PTA [loads](../p4v-to-dpv/scripts/run_test.py#L206) the compiled P4 programs and [configures](../p4v-to-dpv/scripts/run_test.py#L237) all the ports and the registers.
+Finally, it triggers the [packet generation](../p4v-to-dpv/scripts/run_test.py#L244) and [collects the results](../p4v-to-dpv/scripts/run_test.py#L250) of the test from the output packet checker.
+Results are then printed on screen, highlighting all the violated assertions.
