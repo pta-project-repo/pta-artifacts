@@ -31,18 +31,18 @@ Given both a test program and the target abstractions, P4v-to-PTA automatically 
 
 ### Code Analysis
 
-P4v-to-PTA parses the test program code and [extracts](./p4v-to-dpv/scripts/library.py#L48) all the P4v annotations (both assumptions and assertions).
+P4v-to-PTA parses the test program code and [extracts](../p4v-to-dpv/scripts/library.py#L48) all the P4v annotations (both assumptions and assertions).
 It also [comments-out](../p4v-to-dpv/scripts/p4v-to-dpv.py#L23) all the annotations, thus making the code compliant with the target-specific compiler.
 
 ### Test Data Generation
 
-P4v-to-PTA reads [the header file](put_example_code/data-plane/include/headers.p4) included in the test program, creates blank test headers with the fields specified in the header file and [populates all the fields](./p4v-to-dpv/scripts/library.py#L337) with the values specified in the assumptions.
-Since the assumptions might include additional constraints on header/fields, P4v-to-PTA runs [an additional iteration](./p4v-to-dpv/scripts/library.py#L437) over the test header fields to adjust their values, based on the constraints.
+P4v-to-PTA reads [the header file](put_example_code/data-plane/include/headers.p4) included in the test program, creates blank test headers with the fields specified in the header file and [populates all the fields](../p4v-to-dpv/scripts/library.py#L337) with the values specified in the assumptions.
+Since the assumptions might include additional constraints on header/fields, P4v-to-PTA runs [an additional iteration](../p4v-to-dpv/scripts/library.py#L437) over the test header fields to adjust their values, based on the constraints.
 On the other hand, very little processing is required to translate assertions to checks.
 
 ### Hardware Configuration
 
-Leveraging the back-end abstractions, P4v-to-PTA [converts the test data to a hardware configuration](./p4v-to-dpv/scripts/library.py#L1013) that includes both the test packet generator and the output packet checker. It also implements both the [infrastructure to read/write registers](./p4v-to-dpv/scripts/library.py#L1053) and the [configuration of the blank packet generator](./p4v-to-dpv/scripts/library.py#L541).
+Leveraging the back-end abstractions, P4v-to-PTA [converts the test data to a hardware configuration](../p4v-to-dpv/scripts/library.py#L1013) that includes both the test packet generator and the output packet checker. It also implements both the [infrastructure to read/write registers](../p4v-to-dpv/scripts/library.py#L1053) and the [configuration of the blank packet generator](../p4v-to-dpv/scripts/library.py#L541).
 
 ### Image Building
 
