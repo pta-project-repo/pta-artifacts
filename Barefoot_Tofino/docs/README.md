@@ -22,7 +22,8 @@ The tpg architecture includes both [a blank packet generator](../p4v-to-dpv/temp
 
 ## User-facing Abstractions
 
-[User-facing Abstractions](../scripts/settings.sh)
+User-facing abstractions for the Tofino architecture are included in a [script](../scripts/settings.sh) that allows P4v-to-PTA to use the abstractions as they were bash commands. Each abstraction runs a dedicated script that leverages Tofino's primitives to implement the desired functionality.
+For example, to load a program image to a switch, P4v-to-PTA uses [the "Load_Image"](../scripts/settings.sh#L15-L16) abstraction which, in turn, runs the "run_switchd.sh" script provided by Barefoot with the Tofino switch.
 
 ## Test Generation
 
