@@ -64,7 +64,7 @@ Also, P4v-to-PTA needs two environment variables to be defined in the system: "R
 
 To run the test, P4v-to-PTA expects an annotated P4 test program to be placed under ["put" folder](../put/) in the P4v-to-PTA repository on the server. Supported annotations include both P4v assertions and assumptions, as discussed in our paper and as shown in our example test program.
 
-Before running the test you should generate the test data configuration on the server, running [the main P4v-to-PTA script](../p4v-to-dpv/scripts/p4v-to-dpv.py). Once done, your hardware/software test configuration will be stored locally on the server.
+Before running the test you should generate the test data configuration on the server, running [the p4v-to-dpv script](../p4v-to-dpv/scripts/p4v-to-dpv.py). Once done, your hardware/software test configuration will be stored locally on the server.
 
 Finally, to run the test, just launch [the run_test script](../p4v-to-dpv/scripts/run_test.py) and wait for its completion.
 When finished, test results will be printed on screen.
