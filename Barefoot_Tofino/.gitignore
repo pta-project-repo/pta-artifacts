@@ -18,9 +18,10 @@ seed
 test.pcap
 *~*.*xlsm*
 *.flag
+*.DS_Store
 
 ### PUT
-put/data-plane/*
+# put/data-plane/*
 #put/control-plane/*
 
 ### TPG
