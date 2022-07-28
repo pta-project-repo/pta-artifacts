@@ -59,12 +59,12 @@ Assume that you have three interconnected Tofino switches and a server with SSH 
 
  ![](figures/test_topology.png)
 
-Since [P4v-to-PTA](../p4v-to-dpv/scripts/run_test.py) expects the IP addresses of the switches in the form "tofino_" and the IP address of the server as "mgr", you should define these as SSH hostnames in all the four components of the system. Alternatively, it would be possible to hard-code the IP addresses in the P4v-to-PTA scripts.
+Since P4v-to-PTA expects the IP addresses of the switches in the form "tofino_" and the IP address of the server as "mgr", you should define these as SSH hostnames in all the four components of the system. Alternatively, it would be possible to hard-code the IP addresses in the P4v-to-PTA scripts.
 Also, P4v-to-PTA needs two environment variables to be defined in the system: "REPO", that points to the local P4v-to-PTA repository, and "DPV_USR", that stores the SSH username to connect to the switches.
 
 To run the test, P4v-to-PTA expects an annotated P4 test program to be placed under ["put" folder](../put/) in the P4v-to-PTA repository on the server. Supported annotations include both P4v assertions and assumptions, as discussed in our paper and as shown in our example test program.
 
 Before running the test you should generate the test data configuration on the server, running [the main P4v-to-PTA script](../p4v-to-dpv/scripts/p4v-to-dpv.py). Once done, your hardware/software test configuration will be stored locally on the server.
 
-Finally, to run the test, just launch [the run_test script]() and wait for its completion.
+Finally, to run the test, just launch [the run_test script](../p4v-to-dpv/scripts/run_test.py) and wait for its completion.
 When finished, test results will be printed on screen.
