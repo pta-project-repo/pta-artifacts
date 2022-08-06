@@ -1,9 +1,3 @@
-// PROBLEMS IN COMPILING THE ORIGINAL VERSION OF THIS CODE:
-// (1) pragmas not supported/ignored by compiler (p4c-tofino);
-// (2) compiler fails in mapping header fields (3b each) to PHV fields;
-// (3) missing includes;
-// (4) missing destination port;
-
 #include "./include/headers.p4"
 #include <tofino/intrinsic_metadata.p4>
 #include <tofino/constants.p4>
